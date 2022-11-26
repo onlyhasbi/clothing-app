@@ -22,8 +22,7 @@ const SignUp = () => {
     setFields(defaultValues);
   };
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const handleChange = ({ target: { name, value } }) => {
     setFields({ ...fields, [name]: value });
   };
 
@@ -43,6 +42,7 @@ const SignUp = () => {
       await createUserDocumentFromAuth({ ...user, displayName });
       //   console.log(response);
       resetForm();
+      alert();
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         alert("Cannot create user, email already in use");
@@ -55,7 +55,7 @@ const SignUp = () => {
   return (
     <div className="sign-up-container">
       <h2>Don't have an account ?</h2>
-      <span>Sign Up with your email and password</span>
+      <span>Sign Up to create new account</span>
       <form onSubmit={handleSubmit}>
         <Input
           label="Display Name"
@@ -93,9 +93,7 @@ const SignUp = () => {
           required
         />
 
-        <Button type="submit">
-          Sign Up
-        </Button>
+        <Button type="submit">Sign Up</Button>
       </form>
     </div>
   );
