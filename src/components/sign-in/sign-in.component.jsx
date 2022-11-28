@@ -1,11 +1,11 @@
 import Input from "../input/input.component";
 import Button from "../button/button.component";
 import { useState } from "react";
+import { UserContext } from "../../context/user.context";
 import "./sign-in.styles.scss";
 
 import {
   signInWithGooglePopup,
-  createUserDocumentFromAuth,
   createAuthUserWithEmailAndPassword,
   signInAuthWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
@@ -20,7 +20,7 @@ const SignIn = () => {
   const { email, password } = login;
 
   const resetForm = () => {
-    setFields(defaultValues);
+    setLogin(defaultValues);
   };
 
   const changeHandler = ({ target: { name, value } }) => {
@@ -29,40 +29,34 @@ const SignIn = () => {
 
   const signIn = async (event) => {
     event.preventDefault();
-    console.log(email, password);
-    try {
-      const response = await signInAuthWithEmailAndPassword(email, password);
-      if (response.user) {
-        console.log(response.user);
-        alert("Login successed ", response.user.displayName);
-        resetForm();
-      }
-    } catch (error) {
-      switch (error.code) {
-        case "auth/user-not-found": {
-          alert("incorrect email and password");
-          break;
+    await signInAuthWithEmailAndPassword(email, password)
+      .then((response) => {
+        if (response) resetForm();
+        console.log(response);
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case "auth/user-not-found": {
+            alert("incorrect email and password");
+            break;
+          }
+          case "auth/email-already-in-use": {
+            alert("Cannot create user, email already in use");
+            break;
+          }
+          case "auth/wrong-password": {
+            alert("incorrect email and password");
+            break;
+          }
+          default:
+            console.log(error.code);
         }
-        case "auth/email-already-in-use": {
-          alert("Cannot create user, email already in use");
-          break;
-        }
-        case "auth/wrong-password": {
-          alert("incorrect email and password");
-          break;
-        }
-        default:
-          console.log(error.code);
-      }
-    }
+      });
   };
 
   const signInWithGoogle = async (event) => {
     event.preventDefault();
-    const response = await signInWithGooglePopup();
-    if (response) {
-      await createUserDocumentFromAuth(response.user);
-    }
+    await signInWithGooglePopup();
   };
 
   return (
