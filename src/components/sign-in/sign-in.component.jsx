@@ -2,7 +2,7 @@ import Input from "../input/input.component";
 import Button, { BUTTON_TYPES_CLASSES } from "../button/button.component";
 import { useState } from "react";
 import { UserContext } from "../../context/user.context";
-import "./sign-in.styles.scss";
+import { Container,ButtonGroup } from "./sign-in.styles";
 
 import {
   signInWithGooglePopup,
@@ -32,7 +32,6 @@ const SignIn = () => {
     await signInAuthWithEmailAndPassword(email, password)
       .then((response) => {
         if (response) resetForm();
-        console.log(response);
       })
       .catch((error) => {
         switch (error.code) {
@@ -60,7 +59,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="sign-in-container">
+    <Container>
       <h2>Already have an account ?</h2>
       <span>Sign in with email and password</span>
       <form>
@@ -80,7 +79,7 @@ const SignIn = () => {
           value={password}
           required
         />
-        <div className="buttons-container">
+        <ButtonGroup>
           <Button type="submit" onClick={signIn}>
             Sign In
           </Button>
@@ -91,9 +90,9 @@ const SignIn = () => {
           >
             Sign In with Google
           </Button>
-        </div>
+        </ButtonGroup>
       </form>
-    </div>
+    </Container>
   );
 };
 

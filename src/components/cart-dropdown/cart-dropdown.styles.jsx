@@ -1,4 +1,9 @@
 import styled from "styled-components";
+import {
+  BaseButton,
+  GoogleSignInButton,
+  InvertedButton,
+} from "../button/button.styles";
 
 export const DropdownContainer = styled.div`
   position: absolute;
@@ -12,9 +17,15 @@ export const DropdownContainer = styled.div`
   top: 90px;
   right: 40px;
   z-index: 5;
+
+  ${BaseButton},
+  ${GoogleSignInButton},
+  ${InvertedButton} {
+    margin-top: auto;
+  }
 `;
 
-export const Message = styled.div`
+export const EmptyMessage = styled.div`
   font-size: 18px;
   margin: 50px auto;
 `;
@@ -25,7 +36,3 @@ export const DropdownItem = styled.div`
   flex-direction: column;
   overflow: auto;
 `;
-
-// button {
-//   margin-top: auto;
-// }
