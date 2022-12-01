@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "./context/user.context";
 import { CategoriesProvider } from "./context/categories.context";
 import { CartProvider } from "./context/cart.context";
-import "./index.styles.scss";
+import GlobalStyles from "./main.styles";
 import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -13,6 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <UserProvider>
         <CartProvider>
           <CategoriesProvider>
+            <GlobalStyles />
             <App />
           </CategoriesProvider>
         </CartProvider>
