@@ -1,5 +1,5 @@
 import Input from "../input/input.component";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPES_CLASSES } from "../button/button.component";
 import { useState } from "react";
 import { UserContext } from "../../context/user.context";
 import "./sign-in.styles.scss";
@@ -84,7 +84,11 @@ const SignIn = () => {
           <Button type="submit" onClick={signIn}>
             Sign In
           </Button>
-          <Button type="button" variant="google" onClick={signInWithGoogle}>
+          <Button
+            type="button"
+            variant={BUTTON_TYPES_CLASSES.google}
+            onClick={signInWithGoogle}
+          >
             Sign In with Google
           </Button>
         </div>
