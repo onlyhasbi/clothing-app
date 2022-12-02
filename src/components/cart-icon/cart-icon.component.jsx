@@ -3,8 +3,10 @@ import { useContext } from "react";
 import { Container, ShoppingIcon, Count } from "./cart-icon.styles";
 
 const CartIcon = () => {
-  const { isCartOpen, setIsCartOpen, cartCount } = useContext(CartContext);
-  const openHandler = () => setIsCartOpen(!isCartOpen);
+  const { openCart, setIsCartOpen, cartCount } = useContext(CartContext);
+  const openHandler = () => {
+    setIsCartOpen(!openCart);
+  };
 
   return (
     <Container onClick={openHandler}>
