@@ -1,7 +1,6 @@
 import Input from "../input/input.component";
 import Button, { BUTTON_TYPES_CLASSES } from "../button/button.component";
 import { useState } from "react";
-import { UserContext } from "../../context/user.context";
 import { Container,ButtonGroup } from "./sign-in.styles";
 
 import {

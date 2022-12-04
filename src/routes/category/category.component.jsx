@@ -1,12 +1,13 @@
-import { Fragment, useContext, useEffect, useState } from "react";
-import { CategoriesContext } from "../../context/categories.context";
-import { useParams } from "react-router-dom";
 import ProductCard from "../../components/product-card/product-card.component";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Container, Title } from "./category.styles";
+import { selectCategories } from "../../store/categories/categories.selector";
+import { useSelector } from "react-redux";
 
 const Category = () => {
   const { category } = useParams();
-  const { categories } = useContext(CategoriesContext);
+  const categories = useSelector(selectCategories);
   const [products, setProducts] = useState(categories[category]);
 
   useEffect(() => {
@@ -14,7 +15,7 @@ const Category = () => {
   }, [category, categories]);
 
   return (
-    <Fragment>
+    <>
       <Title>{category.toUpperCase()}</Title>
       <Container>
         {products &&
@@ -22,7 +23,7 @@ const Category = () => {
             <ProductCard key={product.id} product={product} />
           ))}
       </Container>
-    </Fragment>
+    </>
   );
 };
 
