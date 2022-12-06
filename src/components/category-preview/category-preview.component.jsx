@@ -1,5 +1,6 @@
 import ProductCard from "../product-card/product-card.component";
 import { Container, Title, Preview } from "./category-preview.styles";
+import { useSelector } from "react-redux";
 
 const CategoryPreview = ({ title, products }) => {
   return (

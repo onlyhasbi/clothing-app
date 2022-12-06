@@ -6,18 +6,14 @@ import {
   addCollection,
   getCategories,
 } from "../../utils/firebase/firebase.utils";
-import { setCategories } from "../../store/categories/categories.action";
+import { fetchCategoriesAsync } from "../../store/categories/categories.action";
 import { useDispatch } from "react-redux";
 
 const Shop = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getCategoriesData = async () => {
-      const response = await getCategories("categories");
-      if (!!response) dispatch(setCategories(response));
-    };
-    getCategoriesData();
+    dispatch(fetchCategoriesAsync());
   }, []);
 
   return (
