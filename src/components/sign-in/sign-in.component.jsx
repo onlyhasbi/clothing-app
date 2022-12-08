@@ -1,13 +1,13 @@
 import Input from "../input/input.component";
 import Button, { BUTTON_TYPES_CLASSES } from "../button/button.component";
 import { useState } from "react";
-import { Container,ButtonGroup } from "./sign-in.styles";
+import { Container, ButtonGroup } from "./sign-in.styles";
+import { useDispatch } from "react-redux";
 
 import {
-  signInWithGooglePopup,
-  createAuthUserWithEmailAndPassword,
-  signInAuthWithEmailAndPassword,
-} from "../../utils/firebase/firebase.utils";
+  googleSignInStart,
+  emailSignInStart,
+} from "../../store/user/user.action";
 
 const defaultValues = {
   email: "",
@@ -17,6 +17,7 @@ const defaultValues = {
 const SignIn = () => {
   const [login, setLogin] = useState(defaultValues);
   const { email, password } = login;
+  const dispatch = useDispatch();
 
   const resetForm = () => {
     setLogin(defaultValues);
@@ -26,35 +27,19 @@ const SignIn = () => {
     setLogin({ ...login, [name]: value });
   };
 
-  const signIn = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    await signInAuthWithEmailAndPassword(email, password)
-      .then((response) => {
-        if (response) resetForm();
-      })
-      .catch((error) => {
-        switch (error.code) {
-          case "auth/user-not-found": {
-            alert("incorrect email and password");
-            break;
-          }
-          case "auth/email-already-in-use": {
-            alert("Cannot create user, email already in use");
-            break;
-          }
-          case "auth/wrong-password": {
-            alert("incorrect email and password");
-            break;
-          }
-          default:
-            console.log(error.code);
-        }
-      });
+    try {
+      dispatch(emailSignInStart(email, password));
+      resetForm();
+    } catch (error) {
+      console.log("user sign in failed", error);
+    }
   };
 
   const signInWithGoogle = async (event) => {
     event.preventDefault();
-    await signInWithGooglePopup();
+    dispatch(googleSignInStart());
   };
 
   return (
@@ -79,7 +64,7 @@ const SignIn = () => {
           required
         />
         <ButtonGroup>
-          <Button type="submit" onClick={signIn}>
+          <Button type="submit" onClick={handleSubmit}>
             Sign In
           </Button>
           <Button

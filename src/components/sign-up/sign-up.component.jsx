@@ -7,6 +7,8 @@ import {
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
 import { Container } from "./sign-up.styles";
+import { signUpStart } from "../../store/user/user.action";
+import { useDispatch } from "react-redux";
 
 const defaultValues = {
   displayName: "",
@@ -18,6 +20,7 @@ const defaultValues = {
 const SignUp = () => {
   const [fields, setFields] = useState(defaultValues);
   const { displayName, email, password, confirmPassword } = fields;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const resetForm = () => {
@@ -34,21 +37,17 @@ const SignUp = () => {
       alert("password and confirm password doesn't match");
       return;
     }
-
-    await createAuthUserWithEmailAndPassword(email, password)
-      .then(async ({ user }) => {
-        await createUserDocumentFromAuth({ ...user, displayName }).then(() => {
-          resetForm();
-          navigate("/");
-        });
-      })
-      .catch((error) => {
-        if (error.code === "auth/email-already-in-use") {
-          alert("Cannot create user, email already in use");
-        } else {
-          alert("error creating user ", error.message);
-        }
-      });
+    try {
+      dispatch(signUpStart(email, password, displayName));
+    } catch (error) {
+      if (error.code === "auth/email-already-in-use") {
+        alert("Cannot create user, email already in use");
+      } else {
+        alert("error creating user ", error.message);
+      }
+    }
+    resetForm();
+    navigate("/");
   };
 
   return (

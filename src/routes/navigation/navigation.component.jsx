@@ -7,10 +7,15 @@ import { Container, Logo, Navlinks, Links } from "./navigation.styles";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectOpenedCart } from "../../store/cart/cart.selector";
 import { useSelector } from "react-redux";
+import { signOutStart } from "../../store/user/user.action";
+import { useDispatch } from "react-redux";
 
 const Navigation = () => {
   const currentUser = useSelector(selectCurrentUser);
   const openCart = useSelector(selectOpenedCart);
+  const dispatch = useDispatch();
+
+  const signOutHandler = dispatch(signOutStart());
 
   return (
     <>
